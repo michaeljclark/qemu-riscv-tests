@@ -20,7 +20,11 @@ TEST_PROGRAMS = \
 	build/bin/riscv32/vectored-interrupt-sifive_e \
 	build/bin/riscv64/vectored-interrupt-sifive_e \
 	build/bin/riscv32/vectored-interrupt-sifive_u \
-	build/bin/riscv64/vectored-interrupt-sifive_u
+	build/bin/riscv64/vectored-interrupt-sifive_u \
+	build/bin/riscv32/clic-timer-interrupt-sifive_e \
+	build/bin/riscv64/clic-timer-interrupt-sifive_e \
+	build/bin/riscv32/clic-timer-interrupt-sifive_u \
+	build/bin/riscv64/clic-timer-interrupt-sifive_u
 
 all: $(TEST_PROGRAMS)
 
@@ -34,7 +38,11 @@ run-qemu-tests: build-riscv-tests \
 	test-riscv32-vectored-interrupt-sifive_e \
 	test-riscv64-vectored-interrupt-sifive_e \
 	test-riscv32-vectored-interrupt-sifive_u \
-	test-riscv64-vectored-interrupt-sifive_u
+	test-riscv64-vectored-interrupt-sifive_u \
+	test-riscv32-clic-timer-interrupt-sifive_ex \
+	test-riscv64-clic-timer-interrupt-sifive_ex \
+	test-riscv32-clic-timer-interrupt-sifive_ux \
+	test-riscv64-clic-timer-interrupt-sifive_ux
 
 run-riscv-tests: build-riscv-tests
 	ALL_TESTS=$$(find riscv-tests/build/isa -name 'rv64*-v-*' -a ! -name '*.dump'  | sort); \
@@ -62,6 +70,18 @@ test-riscv32-%-sifive_u: build/bin/riscv32/%-sifive_u
 
 test-riscv64-%-sifive_u: build/bin/riscv64/%-sifive_u
 	qemu-system-riscv64 -nographic -machine sifive_u -kernel build/bin/riscv64/$*-sifive_u
+
+test-riscv32-%-sifive_ex: build/bin/riscv32/%-sifive_e
+	qemu-system-riscv32 -nographic -machine sifive_ex -kernel build/bin/riscv32/$*-sifive_e
+
+test-riscv64-%-sifive_ex: build/bin/riscv64/%-sifive_e
+	qemu-system-riscv64 -nographic -machine sifive_ex -kernel build/bin/riscv64/$*-sifive_e
+
+test-riscv32-%-sifive_ux: build/bin/riscv32/%-sifive_u
+	qemu-system-riscv32 -nographic -machine sifive_ux -kernel build/bin/riscv32/$*-sifive_u
+
+test-riscv64-%-sifive_ux: build/bin/riscv64/%-sifive_u
+	qemu-system-riscv64 -nographic -machine sifive_ux -kernel build/bin/riscv64/$*-sifive_u
 
 clean:
 	rm -fr build
