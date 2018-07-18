@@ -27,6 +27,8 @@ TESTS = \
 	clint-vectored-interrupt-sifive_ux \
 	clic-configure-intie-sifive_ex \
 	clic-configure-intie-sifive_ux \
+	clic-configure-intcfg-m-sifive_ex \
+	clic-configure-intcfg-s-sifive_ux \
 	clic-timer-interrupt-sifive_ex \
 	clic-timer-interrupt-sifive_ux
 
