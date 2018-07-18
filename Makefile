@@ -21,6 +21,10 @@ TEST_PROGRAMS = \
 	build/bin/riscv64/vectored-interrupt-sifive_e \
 	build/bin/riscv32/vectored-interrupt-sifive_u \
 	build/bin/riscv64/vectored-interrupt-sifive_u \
+	build/bin/riscv32/clic-configure-sifive_e \
+	build/bin/riscv64/clic-configure-sifive_e \
+	build/bin/riscv32/clic-configure-sifive_u \
+	build/bin/riscv64/clic-configure-sifive_u \
 	build/bin/riscv32/clic-timer-interrupt-sifive_e \
 	build/bin/riscv64/clic-timer-interrupt-sifive_e \
 	build/bin/riscv32/clic-timer-interrupt-sifive_u \
@@ -39,6 +43,10 @@ run-qemu-tests: build-riscv-tests \
 	test-riscv64-vectored-interrupt-sifive_e \
 	test-riscv32-vectored-interrupt-sifive_u \
 	test-riscv64-vectored-interrupt-sifive_u \
+	test-riscv32-clic-configure-sifive_ex \
+	test-riscv64-clic-configure-sifive_ex \
+	test-riscv32-clic-configure-sifive_ux \
+	test-riscv64-clic-configure-sifive_ux \
 	test-riscv32-clic-timer-interrupt-sifive_ex \
 	test-riscv64-clic-timer-interrupt-sifive_ex \
 	test-riscv32-clic-timer-interrupt-sifive_ux \

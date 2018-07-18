@@ -21,6 +21,8 @@ reset_vector:
         li      a0, (CLIC_BASE + CLIC_MMODE_OFFSET + CLIC_INTIE_OFFSET)
         li      t0, 1
         sb      t0, (MTI)(a0)
+        li      t0, 0
+        sb      t0, (MTI)(a0)
 
 # load clint time and timecmp addresses
         li      a0, CLINT_BASE + CLINT_TIME
