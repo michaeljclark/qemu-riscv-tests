@@ -6,6 +6,8 @@ AS_32=$(CROSS_COMPILER)-as -march=rv32imac -mabi=ilp32
 AS_64=$(CROSS_COMPILER)-as -march=rv64imac -mabi=lp64
 AR=$(CROSS_COMPILER)-ar
 
+QEMU_TRACE_OPTS=trace:riscv_trap,trace:sifive_clic_cfg,sifive_clic_intcfg,trace:sifive_clic_ie,trace:sifive_clic_ip
+
 CLFAGS=
 LDFLAGS=-nostartfiles -nostdlib -static
 
@@ -25,10 +27,12 @@ TESTS = \
 	clint-vectored-interrupt-sifive_u \
 	clint-vectored-interrupt-sifive_ex \
 	clint-vectored-interrupt-sifive_ux \
-	clic-configure-intie-sifive_ex \
-	clic-configure-intie-sifive_ux \
+	clic-configure-cfg-m-sifive_ex \
+	clic-configure-cfg-s-sifive_ux \
 	clic-configure-intcfg-m-sifive_ex \
 	clic-configure-intcfg-s-sifive_ux \
+	clic-configure-intie-sifive_ex \
+	clic-configure-intie-sifive_ux \
 	clic-timer-interrupt-sifive_ex \
 	clic-timer-interrupt-sifive_ux
 
