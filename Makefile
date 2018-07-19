@@ -6,10 +6,12 @@ AS_32=$(CROSS_COMPILER)-as -march=rv32imac -mabi=ilp32
 AS_64=$(CROSS_COMPILER)-as -march=rv64imac -mabi=lp64
 AR=$(CROSS_COMPILER)-ar
 
-QEMU_TRACE_OPTS=trace:riscv_trap,trace:sifive_clic_cfg,sifive_clic_intcfg,trace:sifive_clic_ie,trace:sifive_clic_ip
+QEMU_SYSTEM_RISCV32=qemu-system-riscv32
+QEMU_SYSTEM_RISCV64=qemu-system-riscv64
 
 CLFAGS=
 LDFLAGS=-nostartfiles -nostdlib -static
+QEMU_OPTS=-nographic
 
 SIFIVE_U_LD_SCRIPT=conf/dram_0x80000000.lds
 SIFIVE_E_LD_SCRIPT=conf/nvram_0x20400000.lds
@@ -17,6 +19,7 @@ SIFIVE_E_LD_SCRIPT=conf/nvram_0x20400000.lds
 transform_machine = $(subst sifive_ex,sifive_e,$(subst sifive_ux,sifive_u,$(1)))
 test_programs = $(call transform_machine,$(addprefix build/bin/riscv32/, $(1)) $(addprefix build/bin/riscv64/, $(1)))
 test_targets = $(addprefix test-riscv32-, $(1)) $(addprefix test-riscv64-, $(1))
+qemu_trace_opts = $(subst $(space),$(comma),$(addprefix trace:,$(1)))
 
 TESTS = \
 	clint-timer-interrupt-sifive_e \
@@ -36,6 +39,22 @@ TESTS = \
 	clic-timer-interrupt-sifive_ex \
 	clic-timer-interrupt-sifive_ux
 
+comma:= ,
+empty:=
+space:= $(empty) $(empty)
+
+QEMU_TRACE_INTR= \
+	riscv_trap \
+	sifive_clic_cfg \
+	sifive_clic_intcfg \
+	sifive_clic_ie \
+	sifive_clic_ip \
+	sifive_clic_irq
+
+ifeq ($(QEMU_TRACE),intr)
+QEMU_OPTS += -d $(call qemu_trace_opts,$(QEMU_TRACE_INTR))
+endif
+
 TEST_PROGRAMS = $(call test_programs,$(TESTS))
 TEST_TARGETS = $(call test_targets,$(TESTS))
 
@@ -51,7 +70,7 @@ run-riscv-tests: build-riscv-tests
 	ALL_TESTS=$$(find riscv-tests/build/isa -name 'rv64*-v-*' -a ! -name '*.dump'  | sort); \
 	for i in $${ALL_TESTS}; do \
 		test=$$(basename $$i); echo $${test}; \
-		qemu-system-riscv64 -nographic -machine spike_v1.10 -kernel $${i}; \
+		$(QEMU_SYSTEM_RISCV64) -nographic -machine spike_v1.10 -kernel $${i}; \
 	done
 
 build-riscv-tests:
@@ -63,28 +82,28 @@ build-riscv-tests:
 	)
 
 test-riscv32-%-sifive_e: build/bin/riscv32/%-sifive_e
-	@echo -n "$@\t" ; qemu-system-riscv32 -nographic -machine sifive_e -kernel build/bin/riscv32/$*-sifive_e
+	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV32) $(QEMU_OPTS) -machine sifive_e -kernel build/bin/riscv32/$*-sifive_e
 
 test-riscv64-%-sifive_e: build/bin/riscv64/%-sifive_e
-	@echo -n "$@\t" ; qemu-system-riscv64 -nographic -machine sifive_e -kernel build/bin/riscv64/$*-sifive_e
+	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV64) $(QEMU_OPTS) -machine sifive_e -kernel build/bin/riscv64/$*-sifive_e
 
 test-riscv32-%-sifive_u: build/bin/riscv32/%-sifive_u
-	@echo -n "$@\t" ; qemu-system-riscv32 -nographic -machine sifive_u -kernel build/bin/riscv32/$*-sifive_u
+	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV32) $(QEMU_OPTS) -machine sifive_u -kernel build/bin/riscv32/$*-sifive_u
 
 test-riscv64-%-sifive_u: build/bin/riscv64/%-sifive_u
-	@echo -n "$@\t" ; qemu-system-riscv64 -nographic -machine sifive_u -kernel build/bin/riscv64/$*-sifive_u
+	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV64) $(QEMU_OPTS) -machine sifive_u -kernel build/bin/riscv64/$*-sifive_u
 
 test-riscv32-%-sifive_ex: build/bin/riscv32/%-sifive_e
-	@echo -n "$@\t" ; qemu-system-riscv32 -nographic -machine sifive_ex -kernel build/bin/riscv32/$*-sifive_e
+	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV32) $(QEMU_OPTS) -machine sifive_ex -kernel build/bin/riscv32/$*-sifive_e
 
 test-riscv64-%-sifive_ex: build/bin/riscv64/%-sifive_e
-	@echo -n "$@\t" ; qemu-system-riscv64 -nographic -machine sifive_ex -kernel build/bin/riscv64/$*-sifive_e
+	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV64) $(QEMU_OPTS) -machine sifive_ex -kernel build/bin/riscv64/$*-sifive_e
 
 test-riscv32-%-sifive_ux: build/bin/riscv32/%-sifive_u
-	@echo -n "$@\t" ; qemu-system-riscv32 -nographic -machine sifive_ux -kernel build/bin/riscv32/$*-sifive_u
+	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV32) $(QEMU_OPTS) -machine sifive_ux -kernel build/bin/riscv32/$*-sifive_u
 
 test-riscv64-%-sifive_ux: build/bin/riscv64/%-sifive_u
-	@echo -n "$@\t" ; qemu-system-riscv64 -nographic -machine sifive_ux -kernel build/bin/riscv64/$*-sifive_u
+	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV64) $(QEMU_OPTS) -machine sifive_ux -kernel build/bin/riscv64/$*-sifive_u
 
 clean:
 	rm -fr build
