@@ -17,8 +17,8 @@ SIFIVE_U_LD_SCRIPT=conf/dram_0x80000000.lds
 SIFIVE_E_LD_SCRIPT=conf/nvram_0x20400000.lds
 
 transform_machine = $(subst sifive_ex,sifive_e,$(subst sifive_ux,sifive_u,$(1)))
-test_programs = $(call transform_machine,$(addprefix build/bin/riscv32/, $(1)) $(addprefix build/bin/riscv64/, $(1)))
-test_targets = $(addprefix test-riscv32-, $(1)) $(addprefix test-riscv64-, $(1))
+test_programs = $(call transform_machine,$(addprefix build/bin/rv32/, $(1)) $(addprefix build/bin/rv64/, $(1)))
+test_targets = $(addprefix test-rv32-, $(1)) $(addprefix test-rv64-, $(1))
 qemu_trace_opts = $(subst $(space),$(comma),$(addprefix trace:,$(1)))
 
 TESTS = \
@@ -84,47 +84,47 @@ build-riscv-tests:
 		make -j$$(nproc); \
 	)
 
-test-riscv32-%-sifive_e: build/bin/riscv32/%-sifive_e
-	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV32) $(QEMU_OPTS) -machine sifive_e -kernel build/bin/riscv32/$*-sifive_e
+test-rv32-%-sifive_e: build/bin/rv32/%-sifive_e
+	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV32) $(QEMU_OPTS) -machine sifive_e -kernel build/bin/rv32/$*-sifive_e
 
-test-riscv64-%-sifive_e: build/bin/riscv64/%-sifive_e
-	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV64) $(QEMU_OPTS) -machine sifive_e -kernel build/bin/riscv64/$*-sifive_e
+test-rv64-%-sifive_e: build/bin/rv64/%-sifive_e
+	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV64) $(QEMU_OPTS) -machine sifive_e -kernel build/bin/rv64/$*-sifive_e
 
-test-riscv32-%-sifive_u: build/bin/riscv32/%-sifive_u
-	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV32) $(QEMU_OPTS) -machine sifive_u -kernel build/bin/riscv32/$*-sifive_u
+test-rv32-%-sifive_u: build/bin/rv32/%-sifive_u
+	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV32) $(QEMU_OPTS) -machine sifive_u -kernel build/bin/rv32/$*-sifive_u
 
-test-riscv64-%-sifive_u: build/bin/riscv64/%-sifive_u
-	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV64) $(QEMU_OPTS) -machine sifive_u -kernel build/bin/riscv64/$*-sifive_u
+test-rv64-%-sifive_u: build/bin/rv64/%-sifive_u
+	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV64) $(QEMU_OPTS) -machine sifive_u -kernel build/bin/rv64/$*-sifive_u
 
-test-riscv32-%-sifive_ex: build/bin/riscv32/%-sifive_e
-	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV32) $(QEMU_OPTS) -machine sifive_ex -kernel build/bin/riscv32/$*-sifive_e
+test-rv32-%-sifive_ex: build/bin/rv32/%-sifive_e
+	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV32) $(QEMU_OPTS) -machine sifive_ex -kernel build/bin/rv32/$*-sifive_e
 
-test-riscv64-%-sifive_ex: build/bin/riscv64/%-sifive_e
-	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV64) $(QEMU_OPTS) -machine sifive_ex -kernel build/bin/riscv64/$*-sifive_e
+test-rv64-%-sifive_ex: build/bin/rv64/%-sifive_e
+	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV64) $(QEMU_OPTS) -machine sifive_ex -kernel build/bin/rv64/$*-sifive_e
 
-test-riscv32-%-sifive_ux: build/bin/riscv32/%-sifive_u
-	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV32) $(QEMU_OPTS) -machine sifive_ux -kernel build/bin/riscv32/$*-sifive_u
+test-rv32-%-sifive_ux: build/bin/rv32/%-sifive_u
+	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV32) $(QEMU_OPTS) -machine sifive_ux -kernel build/bin/rv32/$*-sifive_u
 
-test-riscv64-%-sifive_ux: build/bin/riscv64/%-sifive_u
-	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV64) $(QEMU_OPTS) -machine sifive_ux -kernel build/bin/riscv64/$*-sifive_u
+test-rv64-%-sifive_ux: build/bin/rv64/%-sifive_u
+	@echo -n "$@\t" ; $(QEMU_SYSTEM_RISCV64) $(QEMU_OPTS) -machine sifive_ux -kernel build/bin/rv64/$*-sifive_u
 
 clean:
 	rm -fr build
 
-build/obj/riscv32/%.o: qemu-tests/%.s
+build/obj/rv32/%.o: qemu-tests/%.s
 	@echo AS.32 $@ ; mkdir -p $(@D) ; $(AS_32) $(CFLAGS) $^ -o $@
 
-build/obj/riscv64/%.o: qemu-tests/%.s
+build/obj/rv64/%.o: qemu-tests/%.s
 	@echo AS.64 $@ ; mkdir -p $(@D) ; $(AS_64) $(CFLAGS) $^ -o $@
 
-build/bin/riscv32/%-sifive_e: build/obj/riscv32/%.o
+build/bin/rv32/%-sifive_e: build/obj/rv32/%.o
 	@echo LD.32 $@ ; mkdir -p $(@D) ; $(CC_32) $(LDFLAGS) -T ${SIFIVE_E_LD_SCRIPT} $^ -o $@
 
-build/bin/riscv64/%-sifive_e: build/obj/riscv64/%.o
+build/bin/rv64/%-sifive_e: build/obj/rv64/%.o
 	@echo LD.64 $@ ; mkdir -p $(@D) ; $(CC_64) $(LDFLAGS) -T ${SIFIVE_E_LD_SCRIPT} $^ -o $@
 
-build/bin/riscv32/%-sifive_u: build/obj/riscv32/%.o
+build/bin/rv32/%-sifive_u: build/obj/rv32/%.o
 	@echo LD.32 $@ ; mkdir -p $(@D) ; $(CC_32) $(LDFLAGS) -T ${SIFIVE_U_LD_SCRIPT} $^ -o $@
 
-build/bin/riscv64/%-sifive_u: build/obj/riscv64/%.o
+build/bin/rv64/%-sifive_u: build/obj/rv64/%.o
 	@echo LD.64 $@ ; mkdir -p $(@D) ; $(CC_64) $(LDFLAGS) -T ${SIFIVE_U_LD_SCRIPT} $^ -o $@
