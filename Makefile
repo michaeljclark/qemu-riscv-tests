@@ -60,17 +60,20 @@ TEST_TARGETS = $(call test_targets,$(TESTS))
 
 all: $(TEST_PROGRAMS)
 
-check: run-qemu-tests
+check: qemu-tests
 
-check-all: all run-riscv-tests run-qemu-tests
+check-all: all riscv-tests qemu-tests
 
-run-qemu-tests: $(TEST_TARGETS)
+qemu-tests: $(TEST_TARGETS)
 
-run-riscv-tests: build-riscv-tests
-	ALL_TESTS=$$(find riscv-tests/build/isa -name 'rv64*-v-*' -a ! -name '*.dump'  | sort); \
+riscv-tests: riscv-tests-rv32 riscv-tests-rv64
+
+riscv-tests-%: build-riscv-tests
+	ALL_TESTS=$$(find riscv-tests/build/isa -name '$(subst riscv-tests-,,$@)*-v-*' -a ! -name '*.dump'  | sort); \
+	QEMU_BIN=$(subst riscv-tests-rv32,$(QEMU_SYSTEM_RISCV32),$(subst riscv-tests-rv64,$(QEMU_SYSTEM_RISCV64),$@)); \
 	for i in $${ALL_TESTS}; do \
 		test=$$(basename $$i); echo $${test}; \
-		$(QEMU_SYSTEM_RISCV64) -nographic -machine spike_v1.10 -kernel $${i}; \
+		$${QEMU_BIN} $(QEMU_OPTS) -machine spike_v1.10 -kernel $${i}; \
 	done
 
 build-riscv-tests:
