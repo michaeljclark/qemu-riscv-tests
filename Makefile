@@ -1,24 +1,23 @@
-CROSS_COMPILER=riscv64-unknown-elf
+CROSS_COMPILER ?= riscv64-unknown-elf
 
-CC_32=$(CROSS_COMPILER)-gcc -march=rv32imac -mabi=ilp32
-CC_64=$(CROSS_COMPILER)-gcc -march=rv64imac -mabi=lp64
-AS_32=$(CROSS_COMPILER)-as -march=rv32imac -mabi=ilp32
-AS_64=$(CROSS_COMPILER)-as -march=rv64imac -mabi=lp64
-AR=$(CROSS_COMPILER)-ar
+CC_32 = $(CROSS_COMPILER)-gcc -march=rv32imac -mabi=ilp32
+CC_64 = $(CROSS_COMPILER)-gcc -march=rv64imac -mabi=lp64
+AS_32 = $(CROSS_COMPILER)-as -march=rv32imac -mabi=ilp32
+AS_64 = $(CROSS_COMPILER)-as -march=rv64imac -mabi=lp64
+AR    = $(CROSS_COMPILER)-ar
 
-QEMU_SYSTEM_RISCV32=qemu-system-riscv32
-QEMU_SYSTEM_RISCV64=qemu-system-riscv64
+QEMU_SYSTEM_RISCV32 ?= qemu-system-riscv32
+QEMU_SYSTEM_RISCV64 ?= qemu-system-riscv64
 
-CLFAGS=
-LDFLAGS=-nostartfiles -nostdlib -static
+QEMU_OPTS = -nographic
 
+CLFAGS  =
+LDFLAGS = -nostartfiles -nostdlib -static
 OBJ_DIR = build/obj
 BIN_DIR = build/bin
 
-QEMU_OPTS=-nographic
-
-SIFIVE_U_LD_SCRIPT=conf/dram_0x80000000.lds
-SIFIVE_E_LD_SCRIPT=conf/nvram_0x20400000.lds
+SIFIVE_U_LD_SCRIPT = conf/dram_0x80000000.lds
+SIFIVE_E_LD_SCRIPT = conf/nvram_0x20400000.lds
 
 TESTS = \
 	clint-timer-interrupt-sifive_e \
