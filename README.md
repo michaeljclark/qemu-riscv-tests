@@ -22,10 +22,25 @@ make -j$(nproc)
 
 ## Running the tests
 
-The RISC-V testsuite is built as a submodule and QEMU specific
-tests are built when running `make check`.
+The RISC-V testsuite is built as a submodule. QEMU specific
+tests are built and executed when running `make check`.
+riscv-tests are build and executed when running `make check-all`.
+
+Run qemu-tests:
+
+```
+make check
+```
+
+Run qemu-tests with interrupt tracing:
+
+```
+make check QEMU_TRACE=intr
+```
+
+Run qemu-tests and riscv-tests:
 
 ```
 git submodule update --init --recursive
-make check
+make check-all
 ```
