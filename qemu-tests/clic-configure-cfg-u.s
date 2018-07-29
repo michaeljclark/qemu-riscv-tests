@@ -11,7 +11,7 @@ reset_vector:
 # 0     nvbits        MAX_VEC_BITS    1 1
 #                     MAX_INT_BITS    4 8
 
-# load the clicintcfg address and configure mode+level+priority
+# load the cliccfg address and configure mode+level+priority
         li      a0, (CLIC_BASE + CLIC_MMODE_OFFSET + CLIC_CFG_OFFSET)
         li      t0, 0
         sb      t0, (a0)
