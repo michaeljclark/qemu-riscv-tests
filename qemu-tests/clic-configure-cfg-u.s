@@ -12,12 +12,32 @@ reset_vector:
 #                     MAX_INT_BITS    4 8
 
 # load the clicintcfg address and configure mode+level+priority
-        li      a0, (CLIC_BASE + CLIC_SMODE_OFFSET + CLIC_CFG_OFFSET)
+        li      a0, (CLIC_BASE + CLIC_MMODE_OFFSET + CLIC_CFG_OFFSET)
         li      t0, 0
         sb      t0, (a0)
 # read back and check result
         lb      t1, (a0)
         bne     t0, t1, fail
+
+# try level bits=4
+        li      t0, 0b1000
+        sb      t0, (a0)
+        lb      t1, (a0)
+        bne     t0, t1, fail
+
+# try level bits=4, vec bits=1
+        li      t0, 0b1001
+        sb      t0, (a0)
+        lb      t1, (a0)
+        bne     t0, t1, fail
+
+# try mode bits=2, level bits=4
+        li      t0, 0b101000
+        sb      t0, (a0)
+        lb      t1, (a0)
+        bne     t0, t1, fail
+
+# fall through to pass
         j       pass
 
 .include "qemu-tests/common-footer.s"
