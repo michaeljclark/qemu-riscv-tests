@@ -28,10 +28,10 @@ TESTS = \
 	clint-vectored-interrupt-sifive_u \
 	clint-vectored-interrupt-sifive_ex \
 	clint-vectored-interrupt-sifive_ux \
-	clic-configure-cfg-m-sifive_ex \
-	clic-configure-cfg-s-sifive_ux \
-	clic-configure-intcfg-m-sifive_ex \
-	clic-configure-intcfg-s-sifive_ux \
+	clic-configure-cfg-e-sifive_ex \
+	clic-configure-cfg-u-sifive_ux \
+	clic-configure-intcfg-e-sifive_ex \
+	clic-configure-intcfg-u-sifive_ux \
 	clic-configure-intie-sifive_ex \
 	clic-configure-intie-sifive_ux \
 	clic-timer-interrupt-sifive_ex \
