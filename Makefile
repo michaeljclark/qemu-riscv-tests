@@ -32,8 +32,8 @@ TESTS = \
 	clic-configure-cfg-u-sifive_ux \
 	clic-configure-intcfg-e-sifive_ex \
 	clic-configure-intcfg-u-sifive_ux \
-	clic-configure-intie-sifive_ex \
-	clic-configure-intie-sifive_ux \
+	clic-configure-intie-e-sifive_ex \
+	clic-configure-intie-u-sifive_ux \
 	clic-timer-interrupt-sifive_ex \
 	clic-timer-interrupt-sifive_ux
 

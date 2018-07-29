@@ -5,9 +5,16 @@
 reset_vector:
 
 # load the clicintcfg address and configure mode+level+priority
-        li      a0, (CLIC_BASE + CLIC_SMODE_OFFSET + CLIC_INTCFG_OFFSET)
+        li      a0, (CLIC_BASE + CLIC_SMODE_OFFSET + CLIC_INTIE_OFFSET)
 
-# set MTI priority
+# enable MTI
+        li      t0, 1
+        sb      t0, (MTI)(a0)
+# read back and check result
+        lb      t1, (MTI)(a0)
+        bne     t0, t1, fail
+
+# disable MTI
         li      t0, 0
         sb      t0, (MTI)(a0)
 # read back and check result
