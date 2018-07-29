@@ -1,10 +1,10 @@
-CROSS_COMPILER ?= riscv64-unknown-elf
+RISCV_PREFIX ?= riscv64-unknown-elf-
 
-CC_32 = $(CROSS_COMPILER)-gcc -march=rv32imac -mabi=ilp32
-CC_64 = $(CROSS_COMPILER)-gcc -march=rv64imac -mabi=lp64
-AS_32 = $(CROSS_COMPILER)-as -march=rv32imac -mabi=ilp32
-AS_64 = $(CROSS_COMPILER)-as -march=rv64imac -mabi=lp64
-AR    = $(CROSS_COMPILER)-ar
+CC_32 = $(RISCV_PREFIX)gcc -march=rv32imac -mabi=ilp32
+CC_64 = $(RISCV_PREFIX)gcc -march=rv64imac -mabi=lp64
+AS_32 = $(RISCV_PREFIX)as -march=rv32imac -mabi=ilp32
+AS_64 = $(RISCV_PREFIX)as -march=rv64imac -mabi=lp64
+AR    = $(RISCV_PREFIX)ar
 
 QEMU_SYSTEM_RISCV32 ?= qemu-system-riscv32
 QEMU_SYSTEM_RISCV64 ?= qemu-system-riscv64
