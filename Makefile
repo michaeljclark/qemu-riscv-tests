@@ -37,7 +37,7 @@ TESTS = \
 	clic-timer-interrupt-sifive_ex \
 	clic-timer-interrupt-sifive_ux
 
-QEMU_TRACE_INTR= \
+TRACE_INTR= \
 	riscv_trap \
 	sifive_clic_cfg \
 	sifive_clic_intcfg \
@@ -49,21 +49,23 @@ comma:= ,
 empty:=
 space:= $(empty) $(empty)
 machine_transform = $(subst sifive_ex,sifive_e,$(subst sifive_ux,sifive_u,$(1)))
-qemu_trace_opts = $(subst $(space),$(comma),$(addprefix trace:,$(1)))
+TRACE_opts = $(subst $(space),$(comma),$(addprefix trace:,$(1)))
 qemu_sys_rv32 = $(QEMU_SYSTEM_RISCV32)
 qemu_sys_rv64 = $(QEMU_SYSTEM_RISCV64)
 qemu_kernel = $(BIN_DIR)/$(1)/$(3)-$(call machine_transform,$(2))
-run_test = echo $(if $(QEMU_TRACE),,-n) "$(4)\t" ; \
-	$(qemu_sys_$(1)) $(QEMU_OPTS) -machine $(2) \
-	-kernel $(call qemu_kernel,$(1),$(2),$(3))
+run_test = cmd="$(qemu_sys_$(1)) $(QEMU_OPTS) -machine $(2) \
+	-kernel $(call qemu_kernel,$(1),$(2),$(3))"; \
+	echo $(if $(TRACE)$(VERBOSE),,-n) "> $(4)\t" ; \
+	echo $(if $(VERBOSE),"+ $${cmd}",-n) ; \
+	$${cmd}
 test_programs = \
 	$(addprefix $(BIN_DIR)/rv32/, $(call machine_transform,$(1))) \
 	$(addprefix $(BIN_DIR)/rv64/, $(call machine_transform,$(1)))
 test_targets = $(addprefix test-rv32-, $(1)) \
 	$(addprefix test-rv64-, $(1))
 
-ifeq ($(QEMU_TRACE),intr)
-QEMU_OPTS += -d $(call qemu_trace_opts,$(QEMU_TRACE_INTR))
+ifeq ($(TRACE),intr)
+QEMU_OPTS += -d $(call TRACE_opts,$(TRACE_INTR))
 endif
 
 TEST_PROGRAMS = $(call test_programs,$(TESTS))

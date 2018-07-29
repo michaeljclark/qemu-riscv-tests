@@ -32,10 +32,22 @@ Run qemu-tests:
 make check
 ```
 
+Run qemu-tests showing executed commands:
+
+```
+make check VERBOSE=1
+```
+
 Run qemu-tests with interrupt tracing:
 
 ```
-make check QEMU_TRACE=intr
+make check TRACE=intr
+```
+
+Run qemu-tests showing executed commands with interrupt tracing:
+
+```
+make check TRACE=intr VERBOSE=1
 ```
 
 Run qemu-tests and riscv-tests:
