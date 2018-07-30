@@ -7,6 +7,7 @@ reset_vector:
 # setup mtvec
 1:      auipc   t0, %pcrel_hi(mtvec)        # load mtvec(hi)
         addi    t0, t0, %pcrel_lo(1b)       # load mtvec(lo)
+        ori     t0, t0, 0b10                # enable CLIC
         csrrw   zero, mtvec, t0
 
 # set mstatus.MIE=1 (enable M mode interrupt)
@@ -46,7 +47,7 @@ reset_vector:
         j       fail
 
 # interrupt vector
-.align 3
+.align 6
 mtvec:
         csrrw   s0, mcause, zero
         bgez    s0, fail
