@@ -22,10 +22,12 @@ SIFIVE_E_LD_SCRIPT = conf/nvram_0x20400000.lds
 TESTS = \
 	clint-timer-interrupt-sifive_e \
 	clint-timer-interrupt-sifive_u \
+	clint-vectored-interrupt-sifive_e \
+	clint-vectored-interrupt-sifive_u
+
+SIFIVE_X_TESTS = \
 	clint-timer-interrupt-sifive_ex \
 	clint-timer-interrupt-sifive_ux \
-	clint-vectored-interrupt-sifive_e \
-	clint-vectored-interrupt-sifive_u \
 	clint-vectored-interrupt-sifive_ex \
 	clint-vectored-interrupt-sifive_ux \
 	clic-configure-cfg-e-sifive_ex \
@@ -63,6 +65,11 @@ test_programs = \
 	$(addprefix $(BIN_DIR)/rv64/, $(call machine_transform,$(1)))
 test_targets = $(addprefix test-rv32-, $(1)) \
 	$(addprefix test-rv64-, $(1))
+qemu_mach_list = $(shell $(QEMU_SYSTEM_RISCV64) -machine help | cut -d' ' -f1)
+
+ifneq ($(filter $(qemu_mach_list),sifive_ex),)
+	TESTS += $(SIFIVE_X_TESTS)
+endif
 
 ifeq ($(TRACE),intr)
 QEMU_OPTS += -d $(call TRACE_opts,$(TRACE_INTR))
