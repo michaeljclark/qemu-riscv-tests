@@ -17,11 +17,16 @@ reset_vector:
         li      t0, 128
         csrrs   zero, mie, t0
 
+# load the cliccfg address and configure mode+level+priority
+        li      a0, (CLIC_BASE + CLIC_MMODE_OFFSET + CLIC_CFG_OFFSET)
+
+# set cliccfg level bits=4
+        li      t0, 0b1000
+        sb      t0, (a0)
+
 # load the clicintie address and enable MTI
         li      a0, (CLIC_BASE + CLIC_MMODE_OFFSET + CLIC_INTIE_OFFSET)
         li      t0, 1
-        sb      t0, (MTI)(a0)
-        li      t0, 0
         sb      t0, (MTI)(a0)
 
 # load clint time and timecmp addresses

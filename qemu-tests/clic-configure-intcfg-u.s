@@ -4,14 +4,30 @@
 .globl reset_vector
 reset_vector:
 
+# load the cliccfg address and configure mode+level+priority
+        li      a0, (CLIC_BASE + CLIC_MMODE_OFFSET + CLIC_CFG_OFFSET)
+
+# set mode bits=2, level bits=4
+        li      t0, 0b101000
+        sb      t0, (a0)
+        lbu     t1, (a0)
+        bne     t0, t1, fail
+
 # load the clicintcfg address and configure mode+level+priority
         li      a0, (CLIC_BASE + CLIC_SMODE_OFFSET + CLIC_INTCFG_OFFSET)
 
-# set MTI priority
+# set MTI mode+level+priority
         li      t0, 0
         sb      t0, (MTI)(a0)
 # read back and check result
-        lb      t1, (MTI)(a0)
+        lbu     t1, (MTI)(a0)
+        bne     t0, t1, fail
+
+# set MTI mode+level+priority
+        li      t0, 0b01111111
+        sb      t0, (MTI)(a0)
+# read back and check result
+        lbu     t1, (MTI)(a0)
         bne     t0, t1, fail
 
 # fall through to pass
