@@ -21,8 +21,8 @@ reset_vector:
 # load the cliccfg address and configure mode+level+priority
         li      a0, (CLIC_BASE + CLIC_MMODE_OFFSET + CLIC_CFG_OFFSET)
 
-# set cliccfg level bits=4
-        li      t0, 0b1000
+# set cliccfg level bits=2
+        li      t0, 0b0100
         sb      t0, (a0)
 
 # load the clicintie address and enable MTI
