@@ -10,6 +10,13 @@ _riscv-qemu_ repository:
 
 - https://github.com/sifive/riscv-qemu/tree/sifive-clic
 
+**Note:** this repository is called _qemu-riscv-tests_ and all
+tests are run in the RISC-V QEMU full system emulator. The
+_riscv-qemu-tests_ repository contains user-mode ports of
+_riscv-tests_ that run in the RISC-V QEMU user-mode simulator.
+
+- https://github.com/arsv/riscv-qemu-tests
+
 ## Build dependencies
 
 These tests depend on the RISC-V GNU Embedded Toolchain
