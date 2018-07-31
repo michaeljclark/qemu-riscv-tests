@@ -32,6 +32,16 @@ cd build
 make -j$(nproc)
 ```
 
+## Environment variables
+
+The tests locate QEMU and the RISC-V compiler from your PATH.
+To override the compiler prefix, set the `RISCV_PREFIX` environment
+variable. The default toolchain prefix is "`riscv64-unknown-elf-`".
+
+```
+export RISCV_PREFIX=riscv64-unknown-elf-
+```
+
 ## Running the tests
 
 The RISC-V testsuite is built as a submodule. QEMU specific
