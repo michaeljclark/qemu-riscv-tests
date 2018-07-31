@@ -1,3 +1,48 @@
+# Privileged ISA constants
+
+.equ MIE_USIE,              0x00000001
+.equ MIE_SSIE,              0x00000002
+.equ MIE_HSIE,              0x00000004
+.equ MIE_MSIE,              0x00000008
+.equ MIE_UTIE,              0x00000010
+.equ MIE_STIE,              0x00000020
+.equ MIE_HTIE,              0x00000040
+.equ MIE_MTIE,              0x00000080
+.equ MIE_UEIE,              0x00000010
+.equ MIE_SEIE,              0x00000020
+.equ MIE_HEIE,              0x00000040
+.equ MIE_MEIE,              0x00000080
+
+.equ MIP_USIP,              0x00000001
+.equ MIP_SSIP,              0x00000002
+.equ MIP_HSIP,              0x00000004
+.equ MIP_MSIP,              0x00000008
+.equ MIP_UTIP,              0x00000010
+.equ MIP_STIP,              0x00000020
+.equ MIP_HTIP,              0x00000040
+.equ MIP_MTIP,              0x00000080
+.equ MIP_UEIP,              0x00000010
+.equ MIP_SEIP,              0x00000020
+.equ MIP_HEIP,              0x00000040
+.equ MIP_MEIP,              0x00000080
+
+.equ MSTATUS_UIE,           0x00000001
+.equ MSTATUS_SIE,           0x00000002
+.equ MSTATUS_HIE,           0x00000004
+.equ MSTATUS_MIE,           0x00000008
+.equ MSTATUS_UPIE,          0x00000010
+.equ MSTATUS_SPIE,          0x00000020
+.equ MSTATUS_HPIE,          0x00000040
+.equ MSTATUS_MPIE,          0x00000080
+.equ MSTATUS_SPP,           0x00000100
+.equ MSTATUS_HPP,           0x00000600
+.equ MSTATUS_MPP,           0x00001800
+.equ MSTATUS_FS,            0x00006000
+.equ MSTATUS_XS,            0x00018000
+.equ MSTATUS_MPRV,          0x00020000
+.equ MSTATUS_SUM,           0x00040000
+.equ MSTATUS_MXR,           0x00080000
+
 # SiFive Test Finisher
 .equ TEST_BASE,             0x00100000
 .equ TEST_PASS,             0x5555

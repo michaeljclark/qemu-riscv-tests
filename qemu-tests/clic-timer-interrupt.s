@@ -11,19 +11,19 @@ reset_vector:
         csrrw   zero, mtvec, t0
 
 # set mstatus.MIE=1 (enable M mode interrupt)
-        li      t0, (1 << 3)
+        li      t0, MSTATUS_MIE
         csrrs   zero, mstatus, t0
 
 # set mie.MTIE=1 (enable M mode timer interrupts)
-        li      t0, (1 << 7)
+        li      t0, MIE_MTIE
         csrrs   zero, mie, t0
 
-# set mstatus.MPIE=1 (set MPIE=1 to check in mcause)
-        li      t0, (1 << 7)
+# set mstatus.MPIE=1 (set MPIE=1 to check in mstatus)
+        li      t0, MSTATUS_MPIE
         csrrs   zero, mstatus, t0
 
-# set mstatus.MPP=3 (set MPP=3 to check in mcause)
-        li      t0, (3 << 11)
+# set mstatus.MPP=3 (set MPP=3 to check in mstatus)
+        li      t0, MSTATUS_MPP
         csrrs   zero, mstatus, t0
 
 # load the cliccfg address and configure mode+level+priority
