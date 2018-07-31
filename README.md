@@ -5,6 +5,11 @@ This repository builds and runs riscv-tests and qemu-tests
 are run on the spike machine and some simple privileged
 mode tests are run on the sifive_e and sifive_u machines.
 
+CLIC tests require the `sifive-clic` branch from SiFive's
+_riscv-qemu_ repository:
+
+- https://github.com/sifive/riscv-qemu/tree/sifive-clic
+
 ## Build dependencies
 
 These tests depend on the RISC-V GNU Embedded Toolchain
@@ -38,13 +43,13 @@ Run qemu-tests showing executed commands:
 make check VERBOSE=1
 ```
 
-Run qemu-tests with interrupt tracing:
+Run qemu-tests with interrupt tracing enabled:
 
 ```
 make check TRACE=intr
 ```
 
-Run qemu-tests showing executed commands with interrupt tracing:
+Run qemu-tests showing executed commands with interrupt tracing enabled:
 
 ```
 make check TRACE=intr VERBOSE=1
