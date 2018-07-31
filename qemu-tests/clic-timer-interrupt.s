@@ -18,6 +18,14 @@ reset_vector:
         li      t0, (1 << 7)
         csrrs   zero, mie, t0
 
+# set mstatus.MPIE=1 (set MPIE=1 to check in mcause)
+        li      t0, (1 << 7)
+        csrrs   zero, mstatus, t0
+
+# set mstatus.MPP=3 (set MPP=3 to check in mcause)
+        li      t0, (3 << 11)
+        csrrs   zero, mstatus, t0
+
 # load the cliccfg address and configure mode+level+priority
         li      a0, (CLIC_BASE + CLIC_MMODE_OFFSET + CLIC_CFG_OFFSET)
 
@@ -53,7 +61,7 @@ mtvec:
         bgez    s0, fail
         slli    s0, s0, 1
         srli    s0, s0, 1
-        li      s1, MTI
+        li      s1, 0x30800007 # mcause.mpp=3, mcause.mpie=1, mcause.exccode=7
         bne     s0, s1, fail
         j       pass
 
