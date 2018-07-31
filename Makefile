@@ -43,8 +43,8 @@ TRACE_INTR= \
 	riscv_trap \
 	sifive_clic_cfg \
 	sifive_clic_intcfg \
-	sifive_clic_ie \
-	sifive_clic_ip \
+	sifive_clic_intie \
+	sifive_clic_intip \
 	sifive_clic_irq
 
 comma:= ,
