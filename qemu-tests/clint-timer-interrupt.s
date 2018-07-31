@@ -10,11 +10,11 @@ reset_vector:
         csrrw   zero, mtvec, t0
 
 # set mstatus.MIE=1 (enable M mode interrupt)
-        li      t0, 8
+        li      t0, (1 << 3)
         csrrs   zero, mstatus, t0
 
 # set mie.MTIE=1 (enable M mode timer interrupts)
-        li      t0, 128
+        li      t0, (1 << 7)
         csrrs   zero, mie, t0
 
 # load clint time and timecmp addresses
