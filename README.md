@@ -48,31 +48,31 @@ The RISC-V testsuite is built as a submodule. QEMU specific
 tests are built and executed when running `make check`.
 riscv-tests are build and executed when running `make check-all`.
 
-Run qemu-tests:
+#### Run qemu-tests
 
 ```
 make check
 ```
 
-Run qemu-tests showing executed commands:
+#### Run qemu-tests showing executed commands
 
 ```
 make check VERBOSE=1
 ```
 
-Run qemu-tests with interrupt tracing enabled:
+#### Run qemu-tests with interrupt tracing enabled
 
 ```
 make check TRACE=intr
 ```
 
-Run qemu-tests showing executed commands with interrupt tracing enabled:
+#### Run qemu-tests showing executed commands with interrupt tracing enabled
 
 ```
 make check TRACE=intr VERBOSE=1
 ```
 
-Run qemu-tests and riscv-tests:
+#### Run qemu-tests and riscv-tests
 
 ```
 git submodule update --init --recursive
