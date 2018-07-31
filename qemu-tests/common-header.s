@@ -1,3 +1,5 @@
+# See LICENSE for license details.
+
 # Privileged ISA constants
 
 .equ MIE_USIE,              0x00000001

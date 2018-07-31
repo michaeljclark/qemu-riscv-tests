@@ -1,6 +1,8 @@
 .include "qemu-tests/common-header.s"
 
 .section .text
+# See LICENSE for license details.
+
 .globl reset_vector
 reset_vector:
 

@@ -1,4 +1,4 @@
-# pass/fail indication
+# See LICENSE for license details.
 
 pass:
         la a0, pass_msg

@@ -1,3 +1,5 @@
+# See LICENSE for license details.
+
 RISCV_PREFIX ?= riscv64-unknown-elf-
 
 CC_32 = $(RISCV_PREFIX)gcc -march=rv32imac -mabi=ilp32
