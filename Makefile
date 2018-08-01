@@ -59,8 +59,8 @@ qemu_sys_rv64 = $(QEMU_SYSTEM_RISCV64)
 qemu_kernel = $(BIN_DIR)/$(1)/$(3)-$(call machine_transform,$(2))
 run_test = cmd="$(qemu_sys_$(1)) $(QEMU_OPTS) -machine $(2) \
 	-kernel $(call qemu_kernel,$(1),$(2),$(3))"; \
-	echo $(if $(TRACE)$(VERBOSE),,-n) "> $(4)\t" ; \
-	echo $(if $(VERBOSE),"+ $${cmd}",-n) ; \
+	printf "> $(4)\t $(if $(TRACE)$(VERBOSE),\n)"; \
+	printf "$(if $(VERBOSE),+ $${cmd}\n)" ; \
 	$${cmd}
 test_programs = \
 	$(addprefix $(BIN_DIR)/rv32/, $(call machine_transform,$(1))) \
