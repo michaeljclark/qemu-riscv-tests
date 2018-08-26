@@ -11,7 +11,7 @@ QEMU_SYSTEM_RISCV64 ?= qemu-system-riscv64
 
 QEMU_OPTS = -nographic
 
-CFLAGS  = -Iqemu-test-env
+CFLAGS  = -Ienv/common
 LDFLAGS = -nostartfiles -nostdlib -static
 OBJ_DIR = build/obj
 BIN_DIR = build/bin

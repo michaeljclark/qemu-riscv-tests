@@ -1,8 +1,8 @@
-.include "qemu-tests/common-header.s"
-
-.section .text
 # See LICENSE for license details.
 
+.include "test-header.s"
+
+.section .text
 .globl reset_vector
 reset_vector:
 
@@ -88,4 +88,4 @@ check:
         bne     s0, s1, fail
         j       pass
 
-.include "qemu-tests/common-footer.s"
+.include "test-footer.s"

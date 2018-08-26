@@ -1,5 +1,9 @@
 # See LICENSE for license details.
 
+# Test Console IO and Test Finisher
+
+.section .text
+
 pass:
         la a0, pass_msg
         jal puts

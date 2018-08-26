@@ -1,10 +1,8 @@
 # See LICENSE for license details.
 
-.include "qemu-tests/common-header.s"
+.include "test-header.s"
 
 .section .text
-# See LICENSE for license details.
-
 .globl reset_vector
 reset_vector:
 
@@ -69,4 +67,4 @@ mtvec:
         bne     s0, s1, fail
         j       pass
 
-.include "qemu-tests/common-footer.s"
+.include "test-footer.s"

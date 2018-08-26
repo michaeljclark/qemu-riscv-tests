@@ -1,6 +1,6 @@
 # See LICENSE for license details.
 
-.include "qemu-tests/common-header.s"
+.include "test-header.s"
 
 .section .text
 .globl reset_vector
@@ -35,4 +35,4 @@ reset_vector:
 # fall through to pass
         j       pass
 
-.include "qemu-tests/common-footer.s"
+.include "test-footer.s"
