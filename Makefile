@@ -4,8 +4,6 @@ RISCV_PREFIX ?= riscv64-unknown-elf-
 
 CC_32 = $(RISCV_PREFIX)gcc -march=rv32imac -mabi=ilp32
 CC_64 = $(RISCV_PREFIX)gcc -march=rv64imac -mabi=lp64
-AS_32 = $(RISCV_PREFIX)as -march=rv32imac -mabi=ilp32
-AS_64 = $(RISCV_PREFIX)as -march=rv64imac -mabi=lp64
 AR    = $(RISCV_PREFIX)ar
 
 QEMU_SYSTEM_RISCV32 ?= qemu-system-riscv32
@@ -13,13 +11,13 @@ QEMU_SYSTEM_RISCV64 ?= qemu-system-riscv64
 
 QEMU_OPTS = -nographic
 
-CLFAGS  =
+CFLAGS  = -Iqemu-test-env
 LDFLAGS = -nostartfiles -nostdlib -static
 OBJ_DIR = build/obj
 BIN_DIR = build/bin
 
-SIFIVE_U_LD_SCRIPT = conf/dram_0x80000000.lds
-SIFIVE_E_LD_SCRIPT = conf/nvram_0x20400000.lds
+SIFIVE_U_LD_SCRIPT = env/qemu-sifive_u/default.lds
+SIFIVE_E_LD_SCRIPT = env/qemu-sifive_e/default.lds
 
 TESTS = \
 	clint-timer-interrupt-sifive_e \
@@ -120,10 +118,10 @@ clean:
 	rm -fr build
 
 $(OBJ_DIR)/rv32/%.o: qemu-tests/%.s
-	@echo AS.32 $@ ; mkdir -p $(@D) ; $(AS_32) $(CFLAGS) $^ -o $@
+	@echo AS.32 $@ ; mkdir -p $(@D) ; $(CC_32) $(CFLAGS) -c $^ -o $@
 
 $(OBJ_DIR)/rv64/%.o: qemu-tests/%.s
-	@echo AS.64 $@ ; mkdir -p $(@D) ; $(AS_64) $(CFLAGS) $^ -o $@
+	@echo AS.64 $@ ; mkdir -p $(@D) ; $(CC_64) $(CFLAGS) -c $^ -o $@
 
 $(BIN_DIR)/rv32/%-sifive_e: $(OBJ_DIR)/rv32/%.o
 	@echo LD.32 $@ ; mkdir -p $(@D) ; $(CC_32) $(LDFLAGS) -T ${SIFIVE_E_LD_SCRIPT} $^ -o $@
